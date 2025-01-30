@@ -1,8 +1,10 @@
 #This was having trouble knitting- I was switching between the console and r-chunk due to issues setting the working directory. I transformed
+library(dplyr)
+library(tidyr)
+library(tibble)
+
 tree <-read.csv("TREE.csv")
 print(tree)
-tree.df <-as.data.frame(tree)
-print(tree.df)
 
 tree.species.df <-data.frame(Plot_ID = c(tree$PLOT),
                              Species_ID =c(tree$SPCD))
@@ -10,18 +12,25 @@ print(tree.species.df)
 
 print(tree.species.df$Plot_ID)
 
+#Site by Species df 
+tree.ss.df <- as.data.frame.matrix(table(tree.species.df$Plot_ID, tree.species.df$Species_ID))
+tree.ss.df <- rownames_to_column(tree.ss.df, var = "Plot_ID")
+print(tree.ss.df)
+
+tree.species.only.df <- tree.ss.df[, 2:ncol(tree.ss.df)]
+
 #necessary functions 
-  #observed richenss
+#observed richenss
 S.obs <- function(x = ""){
   rowSums(x > 0) *1 
 } 
-  #Good's coverage
+#Good's coverage
 GC <- function (x = ""){1- (rowSums(x ==1)/rowSums(x))}
-  #chao1
+#chao1
 chao1 <- function(x ="") {
   S.obs(x) + (sum(x==1)^2)/(2*sum(x ==2))
 }
-  #chao2
+#chao2
 chao2 <- function(site = "", SbyS = "") {
   SbyS = as.data.frame(SbyS)
   x = SbyS[site,]
@@ -31,7 +40,7 @@ chao2 <- function(site = "", SbyS = "") {
   chao2 = S.obs(x) +(Q1^2)/(2*Q2)
   return(chao2)
 }
-  #Shannon's H
+#Shannon's H
 shanH <-function (x = ""){
   H =0
   for (n_i in x){
@@ -43,12 +52,12 @@ shanH <-function (x = ""){
   return(H)
 }
 
-  #Evar
+#Evar
 Evar <- function(x){
   x <-as.vector(x[x >0])
   1-(2/pi)*atan(var(log(x)))
 }
-  #ACE
+#ACE
 ace <- function (x = "", thresh =10){
   x <- x[x >0]
   S.abund <-length(which (x > thresh))
@@ -67,7 +76,7 @@ ace <- function (x = "", thresh =10){
   return(S.ace)
 }
 
-  #RAC
+#RAC
 RAC <-function (x = "") {
   x.ab = x[x>0]
   x.ab.ranked = x.ab[order(x.ab, decreasing = TRUE)]
@@ -75,7 +84,7 @@ RAC <-function (x = "") {
   return(x.ab.ranked)
 }
 
-  #SimpD
+#SimpD
 SimpD = function(x = ""){
   D=0
   N=sum(x)
@@ -85,7 +94,7 @@ SimpD = function(x = ""){
   return(D)
 }
 
-  #simpE
+#simpE
 simpE <- function (x = ""){
   S <-S.obs(x)
   x = as.data.frame(x)
@@ -93,21 +102,10 @@ simpE <- function (x = ""){
   E = (D)/S
 }
 
-#Site by Species df 
-library(dplyr)
-library(tidyr)
-library(tibble)
-
-tree.species.df <- tree.species.df %>%
-  mutate(Plot_ID = as.character(Plot_ID), Species_ID = as.character(Species_ID))
-tree.ss.df <- as.data.frame.matrix(table(tree.species.df$Plot_ID, tree.species.df$Species_ID))
-tree.ss.df <- rownames_to_column(tree.ss.df, var = "Plot_ID")
-print(tree.ss.df)
-tree.species.df <- tree.ss.df[, 2:ncol(tree.ss.df)]
 #Overview
-length(tree.species.df$Species_ID) #43528 species in the Tree dataset-species delimited by species ID ranging from 110-999 translation of the codes can be found in the repository
+length(tree$SPCD) #43528 species in the Tree dataset-species delimited by species ID ranging from 110-999 translation of the codes can be found in the repository
 range(tree.species.df$Species_ID)
-length(tree.species.df$Plot_ID) $43528 plots in the Tree dataset ranging from 1-999 translation of the codes can be found in the repository
+length(tree$PLOT) #43528 plots in the Tree dataset ranging from 1-999 translation of the codes can be found in the repository
 range(tree.species.df$Plot_ID)
 str(tree.species.df)
 #This dataset is so large much of the diversity metrics will only printed a limited number of outputs. I will have the code for all the sites commented out with comparison at only one site (Site 1)
@@ -124,6 +122,5 @@ GC(tree.site1.df) #.889 GC
 GC.tree.all <-GC(tree.species.df) #mean = .6391
 
 
-chao1.tree.all <- chao1(tree.species.df) #range [17048.72, 17058.72] mean 17051.15
-
-#as of 10:41 on 1/29/2025 I am pushing but will keep working- there is so much data I need some time to think on how I want to filter it so I can do appropriate analysis 
+chao2.tree.all <- chao1(tree.species.df) #range [17048.72, 17058.72] mean 17051.15
+print(chao2.tree.all)
