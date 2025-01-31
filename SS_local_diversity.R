@@ -1,7 +1,9 @@
 #This was having trouble knitting- I was switching between the console and r-chunk due to issues setting the working directory. I transformed
+#wd: /cloud/project/QB_biodiversity_project
 library(dplyr)
 library(tidyr)
 library(tibble)
+
 
 tree <-read.csv("TREE.csv")
 print(tree)
@@ -103,11 +105,12 @@ simpE <- function (x = ""){
 }
 
 #Overview
-length(tree$SPCD) #43528 species in the Tree dataset-species delimited by species ID ranging from 110-999 translation of the codes can be found in the repository
+length(unique(tree$SPCD)) #109 species in the Tree dataset-species delimited by species ID ranging from 110-999 translation of the codes can be found in the repository
 range(tree.species.df$Species_ID)
-length(tree$PLOT) #43528 plots in the Tree dataset ranging from 1-999 translation of the codes can be found in the repository
+length(unique(tree$PLOT)) #6586 plots in the Tree dataset ranging from 1-999 translation of the codes can be found in the repository
 range(tree.species.df$Plot_ID)
 str(tree.species.df)
+
 #This dataset is so large much of the diversity metrics will only printed a limited number of outputs. I will have the code for all the sites commented out with comparison at only one site (Site 1)
 tree.site1.df <- as.data.frame(tree.ss.df[1,])
 tree.site1.df$Plot_ID <- NULL
@@ -117,10 +120,21 @@ print(tree.site1.df)
 S.obs(tree.site1.df) #Observed richenss = 2
 obsRich.all <- S.obs(tree.ss.df) #Observed richness ranges from [2,12] for the enture dataset
 
-#Good's Coverage
+#Good's Coverage - does not include plot number 
 GC(tree.site1.df) #.889 GC
-GC.tree.all <-GC(tree.species.df) #mean = .6391
+GC.tree.all <-GC(tree.species.only.df) #mean = .6391
+print(GC.tree.all)
 
 
+#Chao2
 chao2.tree.all <- chao1(tree.species.df) #range [17048.72, 17058.72] mean 17051.15
 print(chao2.tree.all)
+
+#ACE
+ace(tree.species.only.df) #59705.21 
+
+
+
+
+
+
