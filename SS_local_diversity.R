@@ -12,7 +12,7 @@ tree.species.df <-data.frame(Plot_ID = c(tree$PLOT),
                              Species_ID =c(tree$SPCD))
 print(tree.species.df)
 
-print(tree.species.df$Plot_ID)
+print(tree.species.df)
 
 #Site by Species df 
 tree.ss.df <- as.data.frame.matrix(table(tree.species.df$Plot_ID, tree.species.df$Species_ID))

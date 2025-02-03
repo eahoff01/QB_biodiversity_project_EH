@@ -1,10 +1,20 @@
 Data set: Continous Forrest Inventory 
-Questions: 
+Question: What is the influence of the type of mycrorhizal association on tree species abundance when exposed to the pressure of invasive species? 
 Hypothesis: 
 Week 1:
-Determine dataset 
+Determine dataset: Continous Forrest Inventory
+
 Week 2 
 Load that dataset.
 How many sites are there?
 How many species are there in the entire site-by-species matrix?
 Any other interesting observations based on what you learned this week?
+
+Week 3 
+Determined question
+Elaine- find mycrozhyral association 
+Anna- look at invasive species data- see if plots have invansives
+Will have two site by species matrix 1 for AM 1 for ECM 
+Then further segregate if plot has invansives v does not - will apply to species to filter out different the AM or ECM
+  Follow up question: Does number of invasives influence tree species abundance
+End goal: 4 different Site by species matrix: AM+Invasives; AM-No invasives; ECM+Invasives; ECM-No invasives
