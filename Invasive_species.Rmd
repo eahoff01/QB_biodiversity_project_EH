@@ -1,0 +1,31 @@
+---
+title: "Invasive"
+author: "Anna Lennon"
+date: "2025-02-04"
+output: html_document
+---
+```{r}
+library(readxl)
+library(tibble)
+#setwd("project/QB_biodiversity_project_EH")
+#getwd()
+
+tree <-read.csv("TREE.csv")
+#print(tree)
+
+tree.species.df <-data.frame(Plot_ID = c(tree$PLOT),
+                             Species_ID =c(tree$SPCD))
+print(tree.species.df)
+
+invasive <-read_xlsx("INVASIVE.xlsx")
+str(invasive)
+invasive <-invasive
+print(invasive)
+
+ref_invasives <-as.data.frame(read_xlsx("Ref_Invasives.xlsx"))
+
+print(ref_invasives)
+invasive.df <-as.data.frame(invasive)  
+print(invasive.df)
+
+```
