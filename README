@@ -17,4 +17,4 @@ Anna- look at invasive species data- see if plots have invansives
 Will have two site by species matrix 1 for AM 1 for ECM 
 Then further segregate if plot has invansives v does not - will apply to species to filter out different the AM or ECM
   Follow up question: Does number of invasives influence tree species abundance
-End goal: 4 different Site by species matrix: AM+Invasives; AM-No invasives; ECM+Invasives; ECM-No invasives
+End goal: 4 different Site by species matrix: AM+Invasives; AM-No invasives; ECM+Invasives; ECM-No invasives - code stored in base_df.R
