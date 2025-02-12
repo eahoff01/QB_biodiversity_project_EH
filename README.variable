@@ -1,0 +1,17 @@
+Site by Species [Plot, Column]
+  ninvasive.AM.ss
+  ninvasive.ECM.ss
+  ninvasive.both.ss
+  
+  invasive.AM.ss
+  invasive.ECM.ss
+  invasive.both.ss
+
+Dataframe [Species ID, Plot, Myco_association]
+  ninvasive.AM.df
+  ninvasive.ECM.df
+  ninvasive.both.df
+  
+  invasive.AM.df
+  invasive.ECM.df
+  invasive.both.df
