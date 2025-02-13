@@ -1,0 +1,46 @@
+library(vegan)
+library(tibble)
+library(lattice)
+getwd()
+setwd("/cloud/project/QB_biodiversity_project"")
+
+# Read the CSV file
+tree <- read.csv("TREE.csv")
+#print(tree)
+
+tree.species.df <- data.frame(Plot_ID = tree$PLOT, Species_ID = tree$SPCD)
+#print(tree.species.df)
+
+tree.ss.df <- as.data.frame.matrix(table(tree.species.df$Plot_ID, tree.species.df$Species_ID))
+tree.ss.df <- rownames_to_column(tree.ss.df, var = "Plot_ID")
+tree.ss.df <-tree.ss.df
+#print(tree.ss.df)
+
+tree.species.only.df <- tree.ss.df[, -1]
+print(tree.species.only.df)
+
+tree.species.only.df.L <-tree.species.df
+
+#Bray-Curtis 
+
+tree.db <-vegdist(tree.species.only.df, method = "bray")
+tree.db[!is.finite(tree.db)] <- 0
+
+all(is.na(tree.db))  # Returns TRUE if all values are NA
+all(tree.db == 0, na.rm = TRUE)  # Returns TRUE if all values are 0
+
+any(is.na(tree.db))  # TRUE if at least one NA is present
+any(is.infinite(tree.db))  # TRUE if any Inf or -Inf is present
+
+dim(tree.db)  # Check the dimensions
+length(tree.db)  # Should be >0, otherwise it's empty
+
+tree.db.matrix <- as.matrix(tree.db)  # Convert distance object to matrix
+print(dim(tree.db.matrix))  # Should now return proper dimensions
+
+range(tree.db.matrix, na.rm = TRUE)  # Ensure range is finite
+
+order <-rev(attr(tree.db, "Labels"))
+levelplot(tree.db.matrix[,order], aspect = "iso",
+          xlab = "Plot", ylab = "Plot", scales =list(cex =.5),
+          main = "Bray-Curtis Distance")
